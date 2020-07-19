@@ -19,7 +19,8 @@ class Product extends Model
         $products = [];
 
         foreach ($trainers as $product) {
-            $products[$product->product_id][] = $product;
+            $products[$product->product_id]['name'] = $product->name;
+            $products[$product->product_id]['categories'][] = $product->category;
         }
 
         return $products;
@@ -27,11 +28,12 @@ class Product extends Model
 
     private static function getTrainers()
     {
-        return DB::select("SELECT * FROM laravel.product_category 
-                                    WHERE laravel.product_category.product_id IN 
+        return DB::select("SELECT product_id, category, name FROM product_category 
+                                    INNER JOIN product ON product_category.product_id = product.id
+                                    WHERE product_category.product_id IN 
                                         (
-                                            SELECT product_id FROM laravel.product_category 
-                                            WHERE laravel.product_category.category = 'Trampki' 
+                                            SELECT product_id FROM product_category 
+                                            WHERE product_category.category = 'Trampki' 
                                         ) 
                                     ;");
     }

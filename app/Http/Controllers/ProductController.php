@@ -11,27 +11,26 @@ class ProductController extends Controller
     public function getTrainersFromOutlet()
     {
         $trainers = Product::getTrainersWithCategories();
-
         $result = [];
 
-        foreach ($trainers as $id => $productCategories) {
-            if ($this->isProductMatchingSearch($productCategories)) {
-                $result[] = $id;
+        foreach ($trainers as $id => $details) {
+            if ($this->isProductMatchingSearch($details)) {
+                $result[$id] = $details;
             }
         }
 
         print_r($result);
     }
 
-    private function isProductMatchingSearch(array $productCategories)
+    private function isProductMatchingSearch(array $details)
     {
         $areTrainer = false;
         $isOutlet = false;
-        foreach ($productCategories as $productCategory) {
-            if ($productCategory->category == Product::TRAINERS) {
+        foreach ($details['categories'] as $category) {
+            if ($category == Product::TRAINERS) {
                 $areTrainer = true;
             }
-            if ($productCategory->category == Product::OUTLET) {
+            if ($category == Product::OUTLET) {
                 $isOutlet = true;
             }
         }

@@ -33,7 +33,7 @@ class Product extends Model
                                     WHERE product_category.product_id IN 
                                         (
                                             SELECT product_id FROM product_category 
-                                            WHERE product_category.category = 'Trampki' 
+                                            WHERE product_category.category = '" . self::TRAINERS . "'  
                                         ) 
                                     ;");
     }
